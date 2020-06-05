@@ -1,0 +1,72 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Introduction to Data Science Course Python
+**Bloque #1 Notebook #2**     
+**Created By:** Germán Andrés Jején Cortes      
+**Twitter:**    [@andres_jejen](http://www.twitter.com/andres_jejen)  
+
+
+## Goals
+By the end of this notebook i hope you learn part of the data science path, creating plots in order to understand data provided.
+
+## Introduction
+**Business Context:** You work as a Data Scientist in a goverment ccorporation that evatuales environmental effects of commerce. You´re asked about find some insigts in a car database that the people use in your country. This insights will be usefull to create policies and improve the environment health.    
+
+**Analytical Context** The data that you will use contains a subset of the fuel economy data that the EPA makes available on http://fueleconomy.gov. It contains only models which had a new release every year between 1999 and 2008 - this was used as a proxy for the popularity of the car. This data comes in ``ggplot library``, you have to load it and use libraries as ``ggplot` to create useful plots and finds insights for your company.
+
+## Importing libraries
+If you're not installed yet ``tidyverse packages`` this code cell will install it and load it in your environment.
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+## importing Dataset
+```{r}
+mpg
+```
+
+### What means those columns?
+A data frame with 234 rows and 11 variables:
+
+column Name | Description
+------------|-------------------
+manufacturer| manufacturer name 
+model       | model name        
+displ       | engine displacement, in litres
+year        | year of manufacture
+cyl         | number of cylinders
+trans       | type of transmission
+drv         | the type of drive train, where f = front-wheel drive, r = rear wheel drive, 4 = 4wd
+cty         |city miles per gallon
+hwy         |highway miles per gallon
+fl          |fuel type
+class       |"type" of car
+
+### Quality of Data (NAN VALUES)
+
+```{r}
+colSums(is.na(mpg))
+```
+There is no null data on mpg dataset.
+
+## First plot
+You notice that you have two key columns ``hwy`` and ``displ``, ``hwy`` is the fuel efficiency on the highway, in miles per gallon (mpg), and ``displ`` is the car engine in liters. So you plot a scatter plot between this columns.
+
+```{r}
+ggplot(data=mpg) + geom_point(mapping = aes(x=displ, y = hwy))
+```
+here we can see that exist a negative relationship between displ and hwy. If you wath carefully there is some points that seems to be outliers, are cars that have a big displ and a medium hwy.
+### PORPOSE OF DATASCIENTIST
+As DataScientis you have to porpose hypothesis and try so search some, evidence for or against.
+
+**First Hypothesis:** We hypothesize that the cars are hybrids.
+How to test it?  One way is to plot this same plot adding a color per class.
+
+```{r}
+ggplot(data=mpg) + geom_point(mapping = aes(x=displ, y = hwy, color=class))
+```
+The class feature classifies cars into groups such as compact, midsize, and SUV. If the outlying points are hybrids, they should be classified as compact cars or, perhaps, subcompact cars (keep in mind that this data was collected before hybrid trucks and SUVs became popular)
